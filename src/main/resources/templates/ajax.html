@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Список записей в БД</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/fa/fa.min.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.min.js"></script>
+    <script src="/js/ajax.js"></script>
+</head>
+<body>
+<!-- компонент меню-->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Название web-приложения</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Главная страница</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/list">Список отправленных сообщений</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ajax">Динамическая страница</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Выпадающее меню
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Пункт 1</a></li>
+                        <li><a class="dropdown-item" href="#">Пункт 3</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Пункт 3</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Недоступно</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-sm-12">
+            <h2>Список записей в БД:</h2>
+            <div class="row">
+                <div class="col-md-2" style="font-weight: bold">
+                    Кому
+                </div>
+                <div class="col-md-4" style="font-weight: bold">
+                    Тема
+                </div>
+                <div class="col-md-4" style="font-weight: bold">
+                    Сообщение
+                </div>
+            </div>
+            <div class="row" id="records">
+            </div>
+            <a class="btn btn-primary" href="/">Отправить другое сообщение</a>
+            <!--            <img src="img/logo.png"/>-->
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red"></p>
+                    <div class="d-none" id="editId"></div>
+                    <div class="form-group">
+                        <label for="editSubject">Тема</label>
+                        <input type="text" class="form-control" id="editSubject" placeholder="Введите тему">
+                    </div>
+                    <div class="form-group">
+                        <label for="editTo">Кому</label>
+                        <input class="form-control" type="email" id="editTo" placeholder="Кому"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="editMessage">Сообщение</label>
+                        <textarea class="form-control" id="editMessage" placeholder="Сообщение"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="$('#editModal').modal('hide');">Close
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="save()">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log("load");
+        loadList();
+    });
+
+
+</script>
+</body>
+</html>
