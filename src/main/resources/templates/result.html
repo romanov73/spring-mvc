@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Простая обработка формы на Spring MVC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Результат обработки формы</h1>
+    <table>
+        <tr>
+            <td>Тема:</td>
+            <td><p th:text="${emailForm.subject}" /></td>
+        </tr>
+        <tr>
+            <td>Кому:</td>
+            <td> <p th:text="${emailForm.to}" /></td>
+        </tr>
+        <tr>
+            <td>Сообщение:</td>
+            <td><p th:text="${emailForm.message}" /></td>
+        </tr>
+    </table>
+    <a href="/">Отправить другое сообщение</a>
+</body>
+</html>

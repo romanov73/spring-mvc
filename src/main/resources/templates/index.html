@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Простая обработка формы на Spring MVC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Форма</h1>
+<form action="#" th:action="@{/sendEmail}" th:object="${emailForm}" method="post">
+    <p style="color:red" th:text="${error}"></p>
+    <table>
+        <tr>
+            <td>Тема:</td>
+            <td><input type="text" th:field="*{subject}"/></td>
+        </tr>
+        <tr>
+            <td>Кому:</td>
+            <td><input type="text" th:field="*{to}"/></td>
+        </tr>
+        <tr>
+            <td>Сообщение:</td>
+            <td><textarea th:field="*{message}"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Отправить"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
