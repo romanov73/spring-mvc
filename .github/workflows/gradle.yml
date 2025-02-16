@@ -13,5 +13,5 @@ jobs:
           distribution: 'temurin'
           architecture: x64
       - name: Test with Gradle
-        run: chmod +x gradlew
-        run: ./gradlew test
+      - run: chmod +x gradlew
+      - run: ./gradlew test
