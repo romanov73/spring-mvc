@@ -25,11 +25,11 @@ public class EmailController {
 
     @PostMapping("/sendEmail")
     public String sendEmail(@ModelAttribute EmailForm emailForm, Model model) {
-        if (emailForm.getTo().isEmpty()) {
+        if (emailForm.getRecipient().isEmpty()) {
             model.addAttribute("error", "'Кому' не должно быть пустым");
             return "index";
         }
-        emailService.save(new Email(emailForm.getTo(), emailForm.getSubject(), emailForm.getMessage()));
+        emailService.save(new Email(emailForm.getRecipient(), emailForm.getSubject(), emailForm.getMessage()));
         model.addAttribute("emails", emailService.getAllEmails());
         return "list";
     }

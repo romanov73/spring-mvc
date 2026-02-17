@@ -1,12 +1,11 @@
 package email.model;
 
 import email.core.BaseEntity;
-
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Email extends BaseEntity {
-    private String to;
+    private String recipient;
     private String subject;
     private String message;
 
@@ -14,18 +13,18 @@ public class Email extends BaseEntity {
 
     }
 
-    public Email(String to, String subject, String message) {
-        this.to = to;
+    public Email(String recipient, String subject, String message) {
+        this.recipient = recipient;
         this.subject = subject;
         this.message = message;
     }
 
-    public String getTo() {
-        return to;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getSubject() {

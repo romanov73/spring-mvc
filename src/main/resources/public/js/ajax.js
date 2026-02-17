@@ -1,7 +1,7 @@
 function edit(id) {
     $.get("ajax/getEmail/"+id, function( data ) {
         $('#editId').text(data.id);
-        $('#editTo').val(data.to);
+        $('#editRecipient').val(data.recipient);
         $('#editMessage').val(data.message);
         $('#editSubject').val(data.subject);
         $('#editModal').modal('show');
@@ -11,7 +11,7 @@ function edit(id) {
 function save() {
     postData = {
                 id:$('#editId').text(),
-                to:$('#editTo').val(),
+        recipient: $('#editRecipient').val(),
                 message:$('#editMessage').val(),
                 subject:$('#editSubject').val(),
                 version:0
@@ -40,7 +40,7 @@ function loadList() {
         $.get("ajax/list", function( data ) {
             $.each(data, function(key, value) {
                 $("#records").append(
-                    "<div class='col-md-2'>"+value.to+"</div>"+
+                    "<div class='col-md-2'>" + value.recipient + "</div>" +
                     "<div class='col-md-4'>"+value.subject+"</div>"+
                     "<div class='col-md-4'>"+value.message+"</div>"+
                     "<div class='col-md-2' onclick='edit("+value.id+")'><i class='fa-solid fa-pen-to-square'></i></div>"

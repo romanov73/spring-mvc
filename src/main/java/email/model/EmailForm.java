@@ -2,7 +2,7 @@ package email.model;
 
 public class EmailForm {
     private String subject;
-    private String to;
+    private String recipient;
     private String message;
 
     public String getSubject() {
@@ -13,12 +13,12 @@ public class EmailForm {
         this.subject = subject;
     }
 
-    public String getTo() {
-        return to;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getMessage() {
@@ -33,7 +33,7 @@ public class EmailForm {
     public String toString() {
         return "EmailForm{" +
                 "subject='" + subject + '\'' +
-                ", to='" + to + '\'' +
+                ", recipient='" + recipient + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

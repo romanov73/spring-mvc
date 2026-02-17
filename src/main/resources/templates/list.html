@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="row" th:each="email: ${emails}">
-                <div class="col-md-4" th:text="${email.to}"/>
+                <div class="col-md-4" th:text="${email.recipient}"/>
                 <div class="col-md-4" th:text="${email.subject}"/>
                 <div class="col-md-4" th:text="${email.message}"/>
             </div>
