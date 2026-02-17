@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +35,7 @@ public class AjaxController {
     }
 
     @ResponseBody
-    @PostMapping("/saveEmail")
+    @PutMapping("/saveEmail")
     public Email saveEmail(@RequestBody Email email) {
         if (email.getRecipient().isEmpty()) {
             throw new RuntimeException("Поле 'Кому' не должно быть пустым");
@@ -44,5 +45,14 @@ public class AjaxController {
         previousEmail.setSubject(email.getSubject());
         previousEmail.setRecipient(email.getRecipient());
         return emailService.save(previousEmail);
+    }
+
+    @ResponseBody
+    @PostMapping("/sendEmail")
+    public Email sendEmail(@RequestBody Email email) {
+        if (email.getRecipient().isEmpty()) {
+            throw new RuntimeException("Поле 'Кому' не должно быть пустым");
+        }
+        return emailService.save(email);
     }
 }

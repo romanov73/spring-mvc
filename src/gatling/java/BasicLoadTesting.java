@@ -3,7 +3,9 @@ import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
 
 import java.time.Duration;
+import java.util.Map;
 
+import static io.gatling.javaapi.core.CoreDsl.StringBody;
 import static io.gatling.javaapi.core.CoreDsl.global;
 import static io.gatling.javaapi.core.CoreDsl.rampUsersPerSec;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
@@ -13,15 +15,27 @@ public class BasicLoadTesting extends Simulation {
 
     HttpProtocolBuilder httpProtocol = http
             .baseUrl("http://127.0.0.1:8080")
-            .acceptHeader("text/html");
+            .acceptHeader("text/html, application/json")
+            .contentTypeHeader("application/json");
 
-    ScenarioBuilder scn = scenario("Create index load test")
-            .exec(http("index").get("/"));
+    Map<String, String> headers_0 = Map.of("Content-Type", "application/json");
 
+    ScenarioBuilder indexLoadTest = scenario("Create index load test")
+            .exec(http("index").get("/"))
+            .exec(http("sendEmail")
+                    .post("/ajax/sendEmail")
+                    .headers(headers_0)
+                    .body(StringBody("""
+                            {
+                              "subject": 1,
+                              "recipient": 101,
+                              "message": "Gatling Post Request Example"
+                            }
+                            """)));
     {
         setUp(
-                scn.injectOpen(
-                        rampUsersPerSec(1).to(10000).during(Duration.ofSeconds(10))
+                indexLoadTest.injectOpen(
+                        rampUsersPerSec(1).to(1000).during(Duration.ofSeconds(10))
                 )
         ).protocols(httpProtocol)
                 .assertions(
