@@ -2,11 +2,12 @@ import io.gatling.javaapi.core.ScenarioBuilder;
 import io.gatling.javaapi.core.Simulation;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
 
+import java.time.Duration;
 import java.util.Map;
 
 import static io.gatling.javaapi.core.CoreDsl.StringBody;
-import static io.gatling.javaapi.core.CoreDsl.atOnceUsers;
 import static io.gatling.javaapi.core.CoreDsl.global;
+import static io.gatling.javaapi.core.CoreDsl.rampUsersPerSec;
 import static io.gatling.javaapi.core.CoreDsl.scenario;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
@@ -32,9 +33,12 @@ public class BasicLoadTesting extends Simulation {
                             }
                             """)))
             .exec(http("list").get("/list"));
+
     {
         setUp(
-                indexLoadTest.injectOpen(atOnceUsers(10))
+                indexLoadTest.injectOpen(
+                        rampUsersPerSec(1).to(10).during(Duration.ofSeconds(10))
+                )
         ).protocols(httpProtocol)
                 .assertions(
                         global().successfulRequests().percent().gt(80.0)
