@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Test with Gradle
         # Модульные тесты
-        run: bash ./gradlew test
+        run: bash ./gradlew build test
       - name: Build and Run Spring Boot in background
         # Используем & для запуска в фоне и nohup, чтобы процесс не убило сразу
         run: |

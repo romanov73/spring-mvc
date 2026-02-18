@@ -26,8 +26,11 @@ public class EmailService {
         return emailRepository.getById(id);
     }
 
-    public void delete(Integer setId) {
-        emailRepository.deleteById(setId);
+    public void delete(Integer id) {
+        if (null == id) {
+            throw new NullPointerException("Id cannot be null");
+        }
+        emailRepository.deleteById(id);
     }
 
 }
