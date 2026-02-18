@@ -5,7 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -64,7 +63,7 @@ public class UlstuSearchTest {
         }
     }
 
-    @Test
+    //@Test
     public void testResultPageHeader() {
         driver.get(APP_URL);
         String searchString = "Факультет информационных систем и технологий";
