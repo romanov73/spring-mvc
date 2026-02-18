@@ -23,12 +23,7 @@ jobs:
           path: ~/.cache/selenium
           key: ${{ runner.os }}-chromedriver-${{ hashFiles('**/build.gradle') }}
       - name: Setup Chrome
-        run: |
-          apt-get update
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          dpkg -i google-chrome-stable_current_amd64.deb
-          apt --fix-broken install
-          dpkg -i google-chrome-stable_current_amd64.deb
+        uses: browser-actions/setup-chrome@v2
       - name: Test with Gradle
         # Модульные и selenium тесты
         run: bash ./gradlew build test
