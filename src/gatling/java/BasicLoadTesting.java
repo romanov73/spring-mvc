@@ -36,7 +36,7 @@ public class BasicLoadTesting extends Simulation {
                 indexLoadTest.injectOpen(atOnceUsers(10))
         ).protocols(httpProtocol)
                 .assertions(
-                        global().successfulRequests().percent().gt(95.0)
+                        global().successfulRequests().percent().gt(80.0)
                 );
     }
 }

@@ -2,7 +2,7 @@ name: Tests for Spring Boot
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Tests:
     runs-on: ubuntu-latest
     container:
       image: exoplatform/jdk:openjdk-21-ubuntu-2204
