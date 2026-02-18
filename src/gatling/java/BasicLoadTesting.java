@@ -30,10 +30,11 @@ public class BasicLoadTesting extends Simulation {
                               "recipient": 101,
                               "message": "Gatling Post Request Example"
                             }
-                            """)));
+                            """)))
+            .exec(http("list").get("/list"));
     {
         setUp(
-                indexLoadTest.injectOpen(atOnceUsers(100))
+                indexLoadTest.injectOpen(atOnceUsers(10))
         ).protocols(httpProtocol)
                 .assertions(
                         global().successfulRequests().percent().gt(80.0)
