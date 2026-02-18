@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Tests for Spring Boot
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
@@ -14,7 +14,7 @@ jobs:
       - name: Build and Run Spring Boot in background
         # Используем & для запуска в фоне и nohup, чтобы процесс не убило сразу
         run: |
-          ./gradlew bootRun &
+          bash ./gradlew bootRun &
           echo "App is starting..."
       - name: Wait for Spring Boot to be ready
         # Ожидаем ответа 200 от Actuator или главной страницы
@@ -22,5 +22,5 @@ jobs:
           timeout 180s bash -c 'until curl -s localhost:8080/actuator/health | grep "UP"; do sleep 5; done'
           echo "App is UP and running!"
           
-          - name: Run Gatling Tests
-            run: ./gradlew gatlingRun
+      - name: Run Gatling Tests
+        run: bash ./gradlew gatlingRun
