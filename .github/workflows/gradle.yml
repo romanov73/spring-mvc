@@ -11,16 +11,20 @@ jobs:
       - name: Test with Gradle
         # Модульные тесты
         run: bash ./gradlew build test
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always()  # Всегда запускать, даже если тесты упали
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          check_name: 'JUnit Test Report'
+        # Нагрузочные тесты
       - name: Build and Run Spring Boot in background
-        # Используем & для запуска в фоне и nohup, чтобы процесс не убило сразу
         run: |
           bash ./gradlew bootRun &
           echo "App is starting..."
       - name: Wait for Spring Boot to be ready
-        # Ожидаем ответа 200 от Actuator или главной страницы
         run: |
           timeout 180s bash -c 'until curl -s localhost:8080/actuator/health | grep "UP"; do sleep 5; done'
           echo "App is UP and running!"
-          
       - name: Run Gatling Tests
         run: bash ./gradlew gatlingRun
