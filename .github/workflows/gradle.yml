@@ -24,8 +24,8 @@ jobs:
           key: ${{ runner.os }}-chromedriver-${{ hashFiles('**/build.gradle') }}
       - name: Setup Chrome
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+          apt-get update
+          apt-get install -y google-chrome-stable
       - name: Test with Gradle
         # Модульные и selenium тесты
         run: bash ./gradlew build test
