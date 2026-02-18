@@ -8,8 +8,26 @@ jobs:
       image: exoplatform/jdk:openjdk-21-ubuntu-2204
     steps:
       - uses: actions/checkout@v4
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache ChromeDriver
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/selenium
+          key: ${{ runner.os }}-chromedriver-${{ hashFiles('**/build.gradle') }}
+      - name: Setup Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
       - name: Test with Gradle
-        # Модульные тесты
+        # Модульные и selenium тесты
         run: bash ./gradlew build test
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v3

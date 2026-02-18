@@ -36,7 +36,7 @@ public class BaseSeleniumTest {
         waitForApplicationToStart();
         // Настройка ChromeOptions
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless"); // Запуск в headless режиме (без UI)
+        options.addArguments("--headless"); // Запуск в headless режиме (без UI)
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
