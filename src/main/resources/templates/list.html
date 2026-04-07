@@ -56,20 +56,20 @@
         <div class="col-md-8 col-sm-12">
             <h2>Список записей в БД:</h2>
             <div class="row">
-                <div class="col-md-4" style="font-weight: bold">
+                <div class="col-md-3" style="font-weight: bold">
                     Кому
                 </div>
-                <div class="col-md-4" style="font-weight: bold">
+                <div class="col-md-3" style="font-weight: bold">
                     Тема
                 </div>
-                <div class="col-md-4" style="font-weight: bold">
+                <div class="col-md-3" style="font-weight: bold">
                     Сообщение
                 </div>
             </div>
             <div class="row" th:each="email: ${emails}">
-                <div class="col-md-4" th:text="${email.recipient}"/>
-                <div class="col-md-4" th:text="${email.subject}"/>
-                <div class="col-md-4" th:text="${email.message}"/>
+                <div class="col-md-3" th:text="${email.recipient}"/>
+                <div class="col-md-3" th:text="${email.subject}"/>
+                <div class="col-md-3" th:text="${email.message}"/>
             </div>
             <a class="btn btn-primary" href="/">Отправить другое сообщение</a>
 <!--            <img src="img/logo.png"/>-->

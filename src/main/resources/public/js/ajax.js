@@ -24,7 +24,7 @@ function save() {
         data: JSON.stringify(postData),
         contentType: "application/json; charset=utf-8",
         processData: false,
-        method: "POST",
+        method: "PUT",
         success: function (response) {
             $('#editModal').modal('hide');
             $("#records").html('');
@@ -40,10 +40,12 @@ function loadList() {
         $.get("ajax/list", function( data ) {
             $.each(data, function(key, value) {
                 $("#records").append(
-                    "<div class='col-md-2'>" + value.recipient + "</div>" +
-                    "<div class='col-md-4'>"+value.subject+"</div>"+
-                    "<div class='col-md-4'>"+value.message+"</div>"+
+                    "<div class='row'>" +
+                    "<div class='col-md-3'>" + value.recipient + "</div>" +
+                    "<div class='col-md-3'>" + value.subject + "</div>" +
+                    "<div class='col-md-3'>" + value.message + "</div>" +
                     "<div class='col-md-2' onclick='edit("+value.id+")'><i class='fa-solid fa-pen-to-square'></i></div>"
+                    + "</div>"
                 );
             });
         });

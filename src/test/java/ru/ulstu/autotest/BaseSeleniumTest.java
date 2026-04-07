@@ -1,5 +1,6 @@
 package ru.ulstu.autotest;
 
+import email.Application;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,12 +9,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 
+import static ru.ulstu.autotest.util.TestUtil.sleep;
+
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        classes = Application.class
+)
 public class BaseSeleniumTest {
     protected WebDriver driver;
     protected WebDriverWait wait;
@@ -34,16 +43,13 @@ public class BaseSeleniumTest {
     public void setUp() {
         baseUrl = "http://localhost:" + port;
         waitForApplicationToStart();
-        // Настройка ChromeOptions
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Запуск в headless режиме (без UI)
+        //options.addArguments("--headless"); // Запуск в headless режиме (без UI)
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
         options.addArguments("--window-size=1920,1080");
-
-        // Для отладки (с UI)
-        // options.addArguments("--start-maximized");
+        //options.addArguments("--start-maximized");
 
         driver = new ChromeDriver(options);
 
@@ -52,12 +58,10 @@ public class BaseSeleniumTest {
         // options.addArguments("--headless");
         // driver = new FirefoxDriver(options);
 
-        // Настройка неявных ожиданий
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
-
-        // Явные ожидания
+        driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
@@ -74,7 +78,7 @@ public class BaseSeleniumTest {
 
         while (attempt < maxAttempts) {
             try {
-                URL url = new URL(baseUrl);
+                URL url = new URI(baseUrl).toURL();
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setConnectTimeout(1000);
@@ -89,22 +93,9 @@ public class BaseSeleniumTest {
                 System.out.println("Waiting for application to start... Attempt " + (attempt + 1));
             }
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            sleep(1000);
             attempt++;
         }
-
         throw new RuntimeException("Application failed to start on " + baseUrl);
-    }
-
-    protected void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }

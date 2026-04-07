@@ -31,7 +31,7 @@ public class UlstuSearchTest {
     public void setUp() {
         // Настройка ChromeOptions
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Запуск в headless режиме (без UI)
+        options.addArguments("--headless"); // Запуск в headless режиме
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
@@ -42,7 +42,6 @@ public class UlstuSearchTest {
 
         driver = new ChromeDriver(options);
 
-        // Альтернатива с Firefox
         // FirefoxOptions options = new FirefoxOptions();
         // options.addArguments("--headless");
         // driver = new FirefoxDriver(options);
