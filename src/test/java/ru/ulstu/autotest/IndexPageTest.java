@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.ulstu.autotest.page.IndexPage;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.ulstu.autotest.util.TestUtil.sleep;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -21,6 +22,7 @@ class IndexPageTest extends BaseSeleniumTest {
     void setUpLoginPage() {
         driver.get(baseUrl);
         indexPage = new IndexPage(driver);
+        sleep(100);
     }
 
     @Test
