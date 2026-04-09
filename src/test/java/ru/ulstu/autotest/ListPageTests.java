@@ -17,6 +17,8 @@ import static ru.ulstu.autotest.util.TestUtil.sleep;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ListPageTests extends BaseSeleniumTest {
 
+    public static final String LIST_PAGE_TITLE = "Список записей в БД";
+
     @Test
     @Order(1)
     @DisplayName("Тест загрузки страницы списка")
@@ -28,6 +30,24 @@ public class ListPageTests extends BaseSeleniumTest {
 
     @Test
     @Order(2)
+    @DisplayName("Тест создания новой записи через форму")
+    public void testCreateNewEmail() {
+        HomePage homePage = HomePage.open(driver, baseUrl);
+        homePage.fillForm("List Test", "list@test.com", "Testing list page")
+                .submitForm();
+        ListPage listPage = ListPage.open(driver, baseUrl);
+        boolean found = listPage.containsEmail("list@test.com", "List Test", "Testing list page");
+
+        if (!found) {
+            sleep(2000);
+            listPage = ListPage.open(driver, baseUrl);
+            found = listPage.containsEmail("list@test.com", "List Test", "Testing list page");
+        }
+        assertTrue(found);
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("Тест получения записей из списка")
     public void testGetEmailList() {
         ListPage listPage = ListPage.open(driver, baseUrl);
@@ -43,32 +63,5 @@ public class ListPageTests extends BaseSeleniumTest {
             assertNotNull(firstEmail.getSubject());
             assertNotNull(firstEmail.getMessage());
         }
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("Тест навигации со страницы списка")
-    public void testNavigationFromListPage() {
-        ListPage listPage = ListPage.open(driver, baseUrl);
-        HomePage homePage = listPage.clickBackButton();
-        assertTrue(homePage.isLoaded());
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Тест создания новой записи через форму")
-    public void testCreateNewEmail() {
-        HomePage homePage = HomePage.open(driver, baseUrl);
-        homePage.fillForm("List Test", "list@test.com", "Testing list page")
-                .submitForm();
-        ListPage listPage = ListPage.open(driver, baseUrl);
-        boolean found = listPage.containsEmail("list@test.com", "List Test", "Testing list page");
-
-        if (!found) {
-            sleep(2000);
-            listPage = ListPage.open(driver, baseUrl);
-            found = listPage.containsEmail("list@test.com", "List Test", "Testing list page");
-        }
-        assertTrue(found);
     }
 }

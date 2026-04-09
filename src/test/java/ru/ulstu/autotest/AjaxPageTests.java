@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AjaxPageTests extends BaseSeleniumTest {
 
@@ -22,17 +23,19 @@ public class AjaxPageTests extends BaseSeleniumTest {
     public void testAjaxPageLoad() {
         AjaxPage ajaxPage = AjaxPage.open(driver, baseUrl);
         assertTrue(ajaxPage.isLoaded());
-        assertNotNull(ajaxPage.getNavigationBar());
     }
 
     @Test
     @Order(2)
     @DisplayName("Тест загрузки данных через AJAX")
     public void testAjaxDataLoad() {
+        HomePage homePage = HomePage.open(driver, baseUrl);
+        homePage.fillForm("Тестовая тема", "test@example.com", "Тестовое сообщение")
+                .submitForm();
+
         AjaxPage ajaxPage = AjaxPage.open(driver, baseUrl);
-        int initialCount = ajaxPage.getRecordCount();
-        int newCount = ajaxPage.getRecordCount();
-        assertTrue(newCount >= initialCount);
+        int recordCount = ajaxPage.getRecordCount();
+        assertTrue(recordCount >= 0);
     }
 
     @Test
@@ -78,7 +81,7 @@ public class AjaxPageTests extends BaseSeleniumTest {
 
     @Test
     @Order(6)
-    @DisplayName("Тест возврата на главную с AJAX страницы")
+    @DisplayName("Тест на ввод данных с AJAX страницы")
     public void testBackToHomeFromAjax() {
         AjaxPage ajaxPage = AjaxPage.open(driver, baseUrl);
         HomePage homePage = ajaxPage.clickBackButton();

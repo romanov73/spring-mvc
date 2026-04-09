@@ -15,6 +15,8 @@ import java.util.List;
 import static ru.ulstu.autotest.util.TestUtil.sleep;
 
 public class AjaxPage extends BasePage {
+    private static final String MENU_ITEM_CLASS = "nav-link";
+    public static final String AJAX_PAGE_TITLE = "Динамический список записей в БД";
 
     @FindBy(id = "records")
     private WebElement recordsContainer;
@@ -46,12 +48,9 @@ public class AjaxPage extends BasePage {
     @FindBy(css = "#records .row")
     private List<WebElement> recordRows;
 
-    private final NavigationBar navigationBar;
-
     public AjaxPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
         PageFactory.initElements(driver, this);
-        this.navigationBar = new NavigationBar(driver);
     }
 
     public static AjaxPage open(WebDriver driver, String baseUrl) {
@@ -63,7 +62,7 @@ public class AjaxPage extends BasePage {
     @Override
     public boolean isLoaded() {
         waitForElementVisible(By.id("records"));
-        return driver.getTitle().equals("Список записей в БД");
+        return driver.getTitle().equals(AJAX_PAGE_TITLE);
     }
 
     public List<EmailRecord> getDisplayedRecords() {
@@ -133,11 +132,26 @@ public class AjaxPage extends BasePage {
         return new HomePage(driver, baseUrl);
     }
 
-    public NavigationBar getNavigationBar() {
-        return navigationBar;
+    public HomePage goToHomePage() {
+        driver.get(baseUrl + "/");
+        return new HomePage(driver, baseUrl);
+    }
+
+    public ListPage goToListPage() {
+        driver.get(baseUrl + "/list");
+        return new ListPage(driver, baseUrl);
     }
 
     public int getRecordCount() {
         return recordRows.size();
+    }
+
+    public List<String> getMenuUrls() {
+        return driver
+                .findElements(By.className(MENU_ITEM_CLASS))
+                .stream()
+                .map(item -> item.getAttribute("href"))
+                .filter(href -> href != null && !href.endsWith("#"))
+                .toList();
     }
 }

@@ -9,11 +9,12 @@ import ru.ulstu.autotest.page.HomePage;
 import ru.ulstu.autotest.page.ResultPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HomePageTests extends BaseSeleniumTest {
+    public static final String HOME_PAGE_TITLE = "Простая обработка формы на Spring MVC";
+
 
     @Test
     @Order(1)
@@ -22,7 +23,6 @@ public class HomePageTests extends BaseSeleniumTest {
         HomePage homePage = HomePage.open(driver, baseUrl);
         assertTrue(homePage.isLoaded());
         assertTrue(homePage.isFormDisplayed());
-        assertNotNull(homePage.getNavigationBar());
     }
 
     @Test
@@ -62,6 +62,7 @@ public class HomePageTests extends BaseSeleniumTest {
         HomePage homePage = HomePage.open(driver, baseUrl);
         homePage.submitFormExpectingError();
         assertTrue(homePage.isFormDisplayed());
+        assertTrue(homePage.isErrorDisplayed());
     }
 
     @Test

@@ -14,6 +14,7 @@ import java.util.List;
 import static ru.ulstu.autotest.util.TestUtil.sleep;
 
 public class ListPage extends BasePage {
+    private static final String MENU_ITEM_CLASS = "nav-link";
 
     @FindBy(css = ".col-md-3[style*='font-weight: bold']")
     private List<WebElement> tableHeaders;
@@ -21,12 +22,9 @@ public class ListPage extends BasePage {
     @FindBy(css = ".row")
     private List<WebElement> emailRows;
 
-    private final NavigationBar navigationBar;
-
     public ListPage(WebDriver driver, String baseUrl) {
         super(driver, baseUrl);
         PageFactory.initElements(driver, this);
-        this.navigationBar = new NavigationBar(driver);
     }
 
     public static ListPage open(WebDriver driver, String baseUrl) {
@@ -79,8 +77,24 @@ public class ListPage extends BasePage {
         return new HomePage(driver, baseUrl);
     }
 
-    public NavigationBar getNavigationBar() {
-        return navigationBar;
+    public HomePage goToHomePage() {
+        driver.get(baseUrl + "/");
+        return new HomePage(driver, baseUrl);
+    }
+
+    public ListPage goToListPage() {
+        driver.findElement(By.linkText("Список отправленных сообщений")).click();
+        return new ListPage(driver, baseUrl);
+    }
+
+    public AjaxPage goToAjaxPage() {
+        driver.get(baseUrl + "/ajax");
+        return new AjaxPage(driver, baseUrl);
+    }
+
+    public boolean isDisabledItemDisplayed() {
+        WebElement disabledItem = driver.findElement(By.linkText("Недоступно"));
+        return disabledItem.isDisplayed() && disabledItem.getAttribute("class").contains("disabled");
     }
 
     public int getHeaderCount() {
@@ -95,5 +109,14 @@ public class ListPage extends BasePage {
                 .anyMatch(email -> email.getRecipient().equals(recipient) &&
                         email.getSubject().equals(subject) &&
                         email.getMessage().equals(message));
+    }
+
+    public List<String> getMenuUrls() {
+        return driver
+                .findElements(By.className(MENU_ITEM_CLASS))
+                .stream()
+                .map(item -> item.getAttribute("href"))
+                .filter(href -> href != null && !href.endsWith("#"))
+                .toList();
     }
 }
