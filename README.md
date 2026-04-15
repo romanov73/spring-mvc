@@ -1,6 +1,6 @@
 # spring-mvc-example
 
-Ссылка для использования приложения http://localhost:8080
+Ссылка для использования приложения http://localhost:8080/
 
 Инсталлятор JDK Oracle https://www.oracle.com/java/technologies/downloads/#java21
 
